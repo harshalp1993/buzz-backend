@@ -1,0 +1,47 @@
+Functionalities Topics:
+
+1. Need 3 different users like Admin, Event Organiser and Normal users
+	Or
+   Only Admin and Event Organizers.
+
+2. What each users can do?
+
+3. Like normal users can see all the events after login,
+   And can go through each event page and can purcahse tickets.
+
+4. And Event organiser user can create new events,
+   Can see event dashboard, orderbook, attendees info and tickets info.
+
+
+class Event(models.Model):
+    uuid = models.CharField(max_length=160, unique=True, blank=False)
+    name = models.CharField(max_length=160, blank=False)
+    password = models.CharField(max_length=160, blank=False)
+
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creators')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '{} ({}, {})'.format(self.uuid, self.creator)
+
+
+
+You can only add a non-nullable field to a model if you add it to a new model and 
+make an initial migration. This is because, after you make that initial migration, 
+Django has no way of knowing whether you deployed your application somewhere else, 
+so it has no way of knowing if there are instances of a model out there. 
+
+After you install PyPng, you should be able to use the following
+
+import pyqrcode
+import io
+import base64
+c = pyqrcode.create("hello")
+s = io.BytesIO()
+c.png(s,scale=6)
+encoded = base64.b64encode(s.getvalue()).decode("ascii")
+If you use IPython Notebook, you can quickly verify if this works for you
+
+from IPython.display import display, HTML
+display(HTML('''<img src="data:image/png;base64,''' + encoded + '''">'''))
